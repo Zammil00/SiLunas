@@ -1,7 +1,7 @@
 # si_lunas
 ![Image](https://github.com/user-attachments/assets/9ccd7d37-43e5-4611-9dfe-2c0a0980ca79)
 
-Desain si_lunas = https://www.figma.com/community/file/979013911560399562
+Desain By Muhammad Syahrul Fuadi = https://www.figma.com/community/file/979013911560399562
 
 A new Flutter project.
 
