@@ -45,7 +45,7 @@ class RegisterView extends GetView<RegisterController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      "REGISTER AKUN BARU SILUNAS APP",
+                      "BUAT AKUN SILUNAS BARU",
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         fontSize: 20,
@@ -87,7 +87,7 @@ class RegisterView extends GetView<RegisterController> {
                         ),
                         onPressed: () {},
                         child: const Text(
-                          "LOGIN",
+                          "REGISTER",
                           style: TextStyle(fontSize: 16, color: Colors.white),
                         ),
                       ),
@@ -95,14 +95,10 @@ class RegisterView extends GetView<RegisterController> {
                     SizedBox(height: 6),
                     Row(
                       children: [
-                        TextButton(
-                          onPressed: () => Get.offAllNamed('/register'),
-                          child: Text("Buat Akun Baru"),
-                        ),
                         Spacer(),
                         TextButton(
-                          onPressed: () => Get.offAllNamed('/forgotpass'),
-                          child: Text("Lupa Password?"),
+                          onPressed: () => Get.offAllNamed('/login'),
+                          child: Text("<- Kembali Login"),
                         ),
                       ],
                     ),
