@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:si_lunas/app/routes/app_pages.dart';
@@ -41,7 +42,9 @@ class RegisterController extends GetxController {
       final response = await client.auth.signUp(email: email, password: pass);
 
       final user = response.user;
-      print(" USER NYA : $user ");
+      if (kDebugMode) {
+        print(" USER NYA : $user ");
+      }
 
       if (user != null) {
         // KOSONGKAN FIELD NYA
@@ -61,6 +64,23 @@ class RegisterController extends GetxController {
           backgroundColor: Colors.green,
           colorText: Colors.white,
         );
+      }
+
+      // KITA SIMPAN DATA USER KE TABLE "users" DI SUPABASE
+      try {
+        await client.from("user_profile").insert({
+          "uid": user?.id,
+          "name": name,
+          "email": email,
+          "created_at": DateTime.now().toIso8601String(),
+        });
+        if (kDebugMode) {
+          print("DATA BERHASIL DI SIMPAN KE TABLE USER_PROFILE");
+        }
+      } catch (e) {
+        if (kDebugMode) {
+          print("GAGAL MENYIMPAN DATA USER KE TABLE USERS : $e");
+        }
       }
     } catch (e) {
       // JIKA TERJADI ERROR
