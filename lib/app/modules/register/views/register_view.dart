@@ -60,6 +60,7 @@ class RegisterView extends GetView<RegisterController> {
                         Text("Masukkan Nama"),
                         TextField(
                           controller: controller.nameC,
+                          keyboardType: TextInputType.name,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: 'Nama Lengkap',
@@ -69,6 +70,7 @@ class RegisterView extends GetView<RegisterController> {
                         Text("Masukkan Email"),
                         TextField(
                           controller: controller.emailC,
+                          keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: 'Email',
@@ -79,6 +81,7 @@ class RegisterView extends GetView<RegisterController> {
                         Obx(
                           () => TextField(
                             controller: controller.passC,
+                            keyboardType: TextInputType.visiblePassword,
                             obscureText: controller.isHide.value,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
@@ -97,20 +100,26 @@ class RegisterView extends GetView<RegisterController> {
                       ],
                     ),
                     const SizedBox(height: 44),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(AppColor.main),
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                    Obx(
+                      () => SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(AppColor.main),
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
                           ),
-                        ),
-                        onPressed: () {},
-                        child: const Text(
-                          "REGISTER",
-                          style: TextStyle(fontSize: 16, color: Colors.white),
+                          onPressed: () {
+                            controller.register();
+                          },
+                          child: Text(
+                            controller.isLoading.isFalse
+                                ? "DAFTAR SEKARANG"
+                                : "LOADING...",
+                            style: TextStyle(fontSize: 16, color: Colors.white),
+                          ),
                         ),
                       ),
                     ),
