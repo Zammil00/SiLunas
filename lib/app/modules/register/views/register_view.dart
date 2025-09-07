@@ -35,7 +35,7 @@ class RegisterView extends GetView<RegisterController> {
             SizedBox(height: 16),
             // Bagian bawah (text + button)
             Expanded(
-              flex: 1,
+              flex: 3,
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 24,
@@ -53,11 +53,22 @@ class RegisterView extends GetView<RegisterController> {
                       ),
                     ),
                     const SizedBox(height: 8),
+
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Text("Masukkan Nama"),
+                        TextField(
+                          controller: controller.nameC,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: 'Nama Lengkap',
+                          ),
+                        ),
+                        SizedBox(height: 16),
                         Text("Masukkan Email"),
                         TextField(
+                          controller: controller.emailC,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: 'Email',
@@ -65,16 +76,27 @@ class RegisterView extends GetView<RegisterController> {
                         ),
                         SizedBox(height: 16),
                         Text("Masukkan Password"),
-                        TextField(
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: 'Password',
+                        Obx(
+                          () => TextField(
+                            controller: controller.passC,
+                            obscureText: controller.isHide.value,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: 'Password',
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  controller.isHide.toggle();
+                                },
+                                icon: (controller.isHide.value)
+                                    ? const Icon(Icons.visibility)
+                                    : const Icon(Icons.visibility_off),
+                              ),
+                            ),
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 44),
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
@@ -88,6 +110,24 @@ class RegisterView extends GetView<RegisterController> {
                         onPressed: () {},
                         child: const Text(
                           "REGISTER",
+                          style: TextStyle(fontSize: 16, color: Colors.white),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 18),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(AppColor.main),
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        onPressed: () {},
+                        child: const Text(
+                          "REGISTER DENGAN GOOGLE",
                           style: TextStyle(fontSize: 16, color: Colors.white),
                         ),
                       ),
