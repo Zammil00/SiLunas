@@ -80,8 +80,7 @@ class SplashView extends GetView<SplashController> {
                           ),
                         ),
                         onPressed: () {
-                          // TODO: Arahkan ke Home / Login Page
-                          Navigator.pushReplacementNamed(context, "/login");
+                          controller.cekLogin();
                         },
                         child: const Text(
                           "Get Started",

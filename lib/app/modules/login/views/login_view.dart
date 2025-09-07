@@ -59,6 +59,8 @@ class LoginView extends GetView<LoginController> {
                       children: [
                         Text("Masukkan Email"),
                         TextField(
+                          controller: controller.emailC,
+                          keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: 'Email',
@@ -66,11 +68,23 @@ class LoginView extends GetView<LoginController> {
                         ),
                         SizedBox(height: 16),
                         Text("Masukkan Password"),
-                        TextField(
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: 'Password',
+                        Obx(
+                          () => TextField(
+                            controller: controller.passC,
+                            keyboardType: TextInputType.visiblePassword,
+                            obscureText: controller.isHide.value,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: 'Password',
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  controller.isHide.toggle();
+                                },
+                                icon: controller.isHide.value
+                                    ? Icon(Icons.visibility)
+                                    : Icon(Icons.visibility_off),
+                              ),
+                            ),
                           ),
                         ),
                       ],
@@ -86,7 +100,9 @@ class LoginView extends GetView<LoginController> {
                             borderRadius: BorderRadius.circular(12),
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          controller.login();
+                        },
                         child: const Text(
                           "LOGIN",
                           style: TextStyle(fontSize: 16, color: Colors.white),

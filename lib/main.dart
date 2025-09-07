@@ -20,7 +20,7 @@ void main() async {
   );
 
   if (kDebugMode) {
-    print("SUPA KONEK GA ? = ${supabase.client.auth.currentSession}");
+    print("SUPABASE INFORMATION ? = ${supabase.client.auth.currentSession}");
   }
 
   runApp(
