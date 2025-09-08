@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:si_lunas/app/routes/app_pages.dart';
 import 'package:si_lunas/core/color/app_color.dart';
 import '../controllers/home_controller.dart';
 
@@ -36,24 +37,7 @@ class HomeView extends GetView<HomeController> {
       ),
 
       // ==== BOTTOM NAVIGATION ====
-      bottomNavigationBar: Obx(
-        () => BottomNavigationBar(
-          backgroundColor: Color(AppColor.base),
-          currentIndex: controller.bottomIndex.value,
-          onTap: (index) => controller.setBottomIndex(index),
-          selectedItemColor: Color(AppColor.main),
-          unselectedItemColor: Colors.grey,
-          showUnselectedLabels: true,
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Beranda"),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.history),
-              label: "Riwayat",
-            ),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profil"),
-          ],
-        ),
-      ),
+      bottomNavigationBar: _BottomBar(controller: controller),
 
       body: SafeArea(
         child: Column(
@@ -226,6 +210,47 @@ class HomeView extends GetView<HomeController> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _BottomBar extends StatelessWidget {
+  const _BottomBar({super.key, required this.controller});
+
+  final HomeController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(
+      () => BottomNavigationBar(
+        backgroundColor: Color(AppColor.base),
+        currentIndex: controller.bottomIndex.value,
+        onTap: (index) {
+          controller.setBottomIndex(index);
+
+          // Handle route sesuai index
+          switch (index) {
+            case 0:
+              Get.offAllNamed(Routes.HOME);
+              break;
+            case 1:
+              Get.offAllNamed('/riwayat');
+              break;
+            case 2:
+              Get.offAllNamed(Routes.PROFILE);
+              break;
+          }
+        },
+        selectedItemColor: Color(AppColor.main),
+        unselectedItemColor: Colors.grey,
+        showUnselectedLabels: true,
+        type: BottomNavigationBarType.fixed,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Beranda"),
+          BottomNavigationBarItem(icon: Icon(Icons.history), label: "Riwayat"),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profil"),
+        ],
       ),
     );
   }
