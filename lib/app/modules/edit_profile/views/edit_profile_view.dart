@@ -5,10 +5,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:si_lunas/app/routes/app_pages.dart';
 import 'package:si_lunas/core/color/app_color.dart';
 
-import '../controllers/profile_controller.dart';
+import '../controllers/edit_profile_controller.dart';
 
-class ProfileView extends GetView<ProfileController> {
-  const ProfileView({super.key});
+class EditProfileView extends GetView<EditProfileController> {
+  const EditProfileView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +17,7 @@ class ProfileView extends GetView<ProfileController> {
         backgroundColor: Color(AppColor.main),
         elevation: 0,
         title: Text(
-          "My Profile",
+          "Edit Profile",
           style: GoogleFonts.sora(
             color: Color(AppColor.base),
             fontSize: 20,
@@ -27,7 +27,7 @@ class ProfileView extends GetView<ProfileController> {
         centerTitle: false,
         actions: [
           IconButton(
-            onPressed: () => Get.toNamed(Routes.EDIT_PROFILE),
+            onPressed: () {},
             icon: Icon(Icons.settings, color: Color(AppColor.base), size: 30),
           ),
         ],
@@ -81,7 +81,7 @@ class ProfileView extends GetView<ProfileController> {
 class _BottomBar extends StatelessWidget {
   const _BottomBar({super.key, required this.controller});
 
-  final ProfileController controller;
+  final EditProfileController controller;
 
   @override
   Widget build(BuildContext context) {

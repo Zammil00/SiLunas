@@ -9,6 +9,7 @@ abstract class Routes {
   static const SPLASH = _Paths.SPLASH;
   static const FORGOTPASS = _Paths.FORGOTPASS;
   static const PROFILE = _Paths.PROFILE;
+  static const EDIT_PROFILE = _Paths.EDIT_PROFILE;
 }
 
 abstract class _Paths {
@@ -19,4 +20,5 @@ abstract class _Paths {
   static const SPLASH = '/splash';
   static const FORGOTPASS = '/forgotpass';
   static const PROFILE = '/profile';
+  static const EDIT_PROFILE = '/edit-profile';
 }
