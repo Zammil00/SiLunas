@@ -37,7 +37,40 @@ class HomeView extends GetView<HomeController> {
       ),
 
       // ==== BOTTOM NAVIGATION ====
-      bottomNavigationBar: _BottomBar(controller: controller),
+      bottomNavigationBar: Obx(
+        () => BottomNavigationBar(
+          backgroundColor: Color(AppColor.base),
+          currentIndex: controller.bottomIndex.value,
+          onTap: (index) {
+            controller.setBottomIndex(index);
+
+            // Handle route sesuai index
+            switch (index) {
+              case 0:
+                Get.offAllNamed(Routes.HOME);
+                break;
+              case 1:
+                Get.offAllNamed(Routes.ADD_TRANSACTION);
+                break;
+              case 2:
+                Get.offAllNamed(Routes.PROFILE);
+                break;
+            }
+          },
+          selectedItemColor: Color(AppColor.main),
+          unselectedItemColor: Colors.grey,
+          showUnselectedLabels: true,
+          type: BottomNavigationBarType.fixed,
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Beranda"),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.add_task),
+              label: "Transaksi",
+            ),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profil"),
+          ],
+        ),
+      ),
 
       body: SafeArea(
         child: Column(
@@ -210,47 +243,6 @@ class HomeView extends GetView<HomeController> {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _BottomBar extends StatelessWidget {
-  const _BottomBar({super.key, required this.controller});
-
-  final HomeController controller;
-
-  @override
-  Widget build(BuildContext context) {
-    return Obx(
-      () => BottomNavigationBar(
-        backgroundColor: Color(AppColor.base),
-        currentIndex: controller.bottomIndex.value,
-        onTap: (index) {
-          controller.setBottomIndex(index);
-
-          // Handle route sesuai index
-          switch (index) {
-            case 0:
-              Get.offAllNamed(Routes.HOME);
-              break;
-            case 1:
-              Get.offAllNamed('/riwayat');
-              break;
-            case 2:
-              Get.offAllNamed(Routes.PROFILE);
-              break;
-          }
-        },
-        selectedItemColor: Color(AppColor.main),
-        unselectedItemColor: Colors.grey,
-        showUnselectedLabels: true,
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Beranda"),
-          BottomNavigationBarItem(icon: Icon(Icons.history), label: "Riwayat"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profil"),
-        ],
       ),
     );
   }
