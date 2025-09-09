@@ -251,7 +251,7 @@ class HomeView extends GetView<HomeController> {
               Get.offAllNamed(Routes.HOME);
               break;
             case 1:
-              Get.offAllNamed(Routes.ADD_TRANSACTION);
+              Get.offAllNamed(Routes.TRANSACTIONS);
               break;
             case 2:
               Get.offAllNamed(Routes.PROFILE);
