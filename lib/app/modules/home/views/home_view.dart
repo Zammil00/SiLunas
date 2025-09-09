@@ -48,10 +48,7 @@ class HomeView extends GetView<HomeController> {
                   width: double.infinity,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [
-                        Color(AppColor.main),
-                        Color(AppColor.main).withOpacity(0.9),
-                      ],
+                      colors: [Color(AppColor.main), Color(AppColor.main)],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
