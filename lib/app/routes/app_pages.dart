@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/add_transactions/bindings/add_transactions_binding.dart';
+import '../modules/add_transactions/views/add_transactions_view.dart';
 import '../modules/edit_profile/bindings/edit_profile_binding.dart';
 import '../modules/edit_profile/views/edit_profile_view.dart';
 import '../modules/forgotpass/bindings/forgotpass_binding.dart';
@@ -64,6 +66,11 @@ class AppPages {
       name: _Paths.TRANSACTIONS,
       page: () => const TransactionsView(),
       binding: TransactionsBinding(),
+    ),
+    GetPage(
+      name: _Paths.ADD_TRANSACTIONS,
+      page: () => const AddTransactionsView(),
+      binding: AddTransactionsBinding(),
     ),
   ];
 }
