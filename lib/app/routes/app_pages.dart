@@ -1,7 +1,5 @@
 import 'package:get/get.dart';
 
-import '../modules/add_transaction/bindings/add_transaction_binding.dart';
-import '../modules/add_transaction/views/add_transaction_view.dart';
 import '../modules/edit_profile/bindings/edit_profile_binding.dart';
 import '../modules/edit_profile/views/edit_profile_view.dart';
 import '../modules/forgotpass/bindings/forgotpass_binding.dart';
@@ -59,11 +57,6 @@ class AppPages {
       name: _Paths.EDIT_PROFILE,
       page: () => const EditProfileView(),
       binding: EditProfileBinding(),
-    ),
-    GetPage(
-      name: _Paths.ADD_TRANSACTION,
-      page: () => const AddTransactionView(),
-      binding: AddTransactionBinding(),
     ),
   ];
 }
