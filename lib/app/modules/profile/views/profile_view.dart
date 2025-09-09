@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:si_lunas/app/routes/app_pages.dart';
@@ -9,6 +8,7 @@ import '../controllers/profile_controller.dart';
 
 class ProfileView extends GetView<ProfileController> {
   const ProfileView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,6 +16,7 @@ class ProfileView extends GetView<ProfileController> {
       appBar: AppBar(
         backgroundColor: Color(AppColor.main),
         elevation: 0,
+        centerTitle: true,
         title: Text(
           "My Profile",
           style: GoogleFonts.sora(
@@ -24,62 +25,170 @@ class ProfileView extends GetView<ProfileController> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        centerTitle: false,
-        actions: [
-          IconButton(
-            onPressed: () => Get.toNamed(Routes.EDIT_PROFILE),
-            icon: Icon(Icons.settings, color: Color(AppColor.base), size: 30),
-          ),
-        ],
+      ),
+
+      body: FutureBuilder(
+        future: controller.getData(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          return Stack(
+            children: [
+              // Background atas melengkung
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                height: MediaQuery.of(context).size.height * 0.40,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(50),
+                      bottomRight: Radius.circular(50),
+                    ),
+                    color: Color(AppColor.main),
+                  ),
+                ),
+              ),
+
+              // Konten profil
+              Positioned.fill(
+                top: 15,
+                child: Column(
+                  children: [
+                    // Avatar
+                    CircleAvatar(
+                      radius: 118,
+                      backgroundColor: Colors.white,
+                      child: Icon(
+                        Icons.person,
+                        size: 60,
+                        color: Color(AppColor.main),
+                      ),
+                    ),
+                    const SizedBox(height: 50),
+
+                    // Card info user
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        elevation: 4,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 24,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                controller.nama.value,
+                                style: GoogleFonts.sora(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 6),
+                              Text(
+                                controller.email.value,
+                                style: GoogleFonts.sora(
+                                  fontSize: 15,
+                                  color: Colors.grey[600],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 24),
+
+                    // Menu tambahan
+                    Expanded(
+                      child: ListView(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        children: [
+                          Card(
+                            margin: const EdgeInsets.only(bottom: 12),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            elevation: 2,
+                            child: ListTile(
+                              leading: Icon(
+                                Icons.edit_document,
+                                color: Color(AppColor.main),
+                              ),
+                              title: Text(
+                                "Edit Profile",
+                                style: GoogleFonts.sora(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(AppColor.main),
+                                ),
+                              ),
+                              trailing: const Icon(
+                                Icons.arrow_forward_ios,
+                                size: 16,
+                              ),
+                              onTap: () {
+                                Get.toNamed(Routes.EDIT_PROFILE);
+                              },
+                            ),
+                          ),
+                          Card(
+                            margin: const EdgeInsets.only(bottom: 12),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            elevation: 2,
+                            child: ListTile(
+                              leading: const Icon(
+                                Icons.logout,
+                                color: Colors.redAccent,
+                              ),
+                              title: Text(
+                                "Keluar",
+                                style: GoogleFonts.sora(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.redAccent,
+                                ),
+                              ),
+                              trailing: const Icon(
+                                Icons.arrow_forward_ios,
+                                size: 16,
+                              ),
+                              onTap: () {
+                                controller.logout();
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          );
+        },
       ),
 
       // ==== BOTTOM NAVIGATION ====
       bottomNavigationBar: _BottomBar(controller: controller),
-
-      body: SafeArea(
-        child: Column(
-          children: [
-            // HEADER
-            Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Container(
-                  height: 240,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Color(AppColor.main), Color(AppColor.main)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(30),
-                      bottomRight: Radius.circular(30),
-                    ),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      CircleAvatar(
-                        backgroundColor: Color(AppColor.base),
-                        maxRadius: 110,
-                        minRadius: 80,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
 
 class _BottomBar extends StatelessWidget {
-  const _BottomBar({super.key, required this.controller});
+  const _BottomBar({required this.controller});
 
   final ProfileController controller;
 
@@ -91,14 +200,12 @@ class _BottomBar extends StatelessWidget {
         currentIndex: controller.bottomIndex.value,
         onTap: (index) {
           controller.setBottomIndex(index);
-
-          // Handle route sesuai index
           switch (index) {
             case 0:
               Get.offAllNamed(Routes.HOME);
               break;
             case 1:
-              Get.offAllNamed('/riwayat');
+              Get.offAllNamed(Routes.ADD_TRANSACTION);
               break;
             case 2:
               Get.offAllNamed(Routes.PROFILE);

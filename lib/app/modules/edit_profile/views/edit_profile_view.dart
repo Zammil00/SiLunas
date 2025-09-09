@@ -79,7 +79,7 @@ class EditProfileView extends GetView<EditProfileController> {
 }
 
 class _BottomBar extends StatelessWidget {
-  const _BottomBar({super.key, required this.controller});
+  const _BottomBar({required this.controller});
 
   final EditProfileController controller;
 

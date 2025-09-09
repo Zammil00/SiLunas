@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:get/get.dart';
+
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'app/routes/app_pages.dart';
@@ -13,6 +14,7 @@ void main() async {
   // INIT DOTENV FOR ENVIRONMENT VARIABLES
   await dotenv.load(fileName: ".env");
 
+  // INIT SUPABASE NYA
   Supabase supabase = await Supabase.initialize(
     url: "https://vzidonrguobywxcyqczd.supabase.co",
     anonKey:
