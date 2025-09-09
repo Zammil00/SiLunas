@@ -30,52 +30,16 @@ class HomeView extends GetView<HomeController> {
             icon: Icon(
               Icons.notifications,
               color: Color(AppColor.base),
-              size: 30,
+              size: 26,
             ),
           ),
         ],
       ),
 
-      // ==== BOTTOM NAVIGATION ====
-      bottomNavigationBar: Obx(
-        () => BottomNavigationBar(
-          backgroundColor: Color(AppColor.base),
-          currentIndex: controller.bottomIndex.value,
-          onTap: (index) {
-            controller.setBottomIndex(index);
-
-            // Handle route sesuai index
-            switch (index) {
-              case 0:
-                Get.offAllNamed(Routes.HOME);
-                break;
-              case 1:
-                Get.offAllNamed(Routes.ADD_TRANSACTION);
-                break;
-              case 2:
-                Get.offAllNamed(Routes.PROFILE);
-                break;
-            }
-          },
-          selectedItemColor: Color(AppColor.main),
-          unselectedItemColor: Colors.grey,
-          showUnselectedLabels: true,
-          type: BottomNavigationBarType.fixed,
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Beranda"),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.add_task),
-              label: "Transaksi",
-            ),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profil"),
-          ],
-        ),
-      ),
-
       body: SafeArea(
         child: Column(
           children: [
-            // HEADER
+            // ==== HEADER ====
             Stack(
               clipBehavior: Clip.none,
               children: [
@@ -84,7 +48,10 @@ class HomeView extends GetView<HomeController> {
                   width: double.infinity,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [Color(AppColor.main), Color(AppColor.main)],
+                      colors: [
+                        Color(AppColor.main),
+                        Color(AppColor.main).withOpacity(0.9),
+                      ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
@@ -116,7 +83,7 @@ class HomeView extends GetView<HomeController> {
                   ),
                 ),
 
-                // CARD TAB MENGAMBANG
+                // TAB MENGAMBANG
                 Positioned(
                   bottom: -30,
                   left: 40,
@@ -137,15 +104,57 @@ class HomeView extends GetView<HomeController> {
                       ),
                       child: Row(
                         children: [
-                          _tabButton(
-                            label: "Hutang",
-                            active: controller.selectedMenu.value == 1,
-                            onTap: () => controller.setMenu(1),
+                          Expanded(
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(30),
+                              onTap: () => controller.setMenu(1),
+                              child: AnimatedContainer(
+                                duration: const Duration(milliseconds: 250),
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  color: controller.selectedMenu.value == 1
+                                      ? Color(AppColor.main)
+                                      : Colors.transparent,
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                child: Text(
+                                  "Hutang",
+                                  style: GoogleFonts.sora(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 14,
+                                    color: controller.selectedMenu.value == 1
+                                        ? Colors.white
+                                        : Colors.grey[600],
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
-                          _tabButton(
-                            label: "Piutang",
-                            active: controller.selectedMenu.value == 2,
-                            onTap: () => controller.setMenu(2),
+                          Expanded(
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(30),
+                              onTap: () => controller.setMenu(2),
+                              child: AnimatedContainer(
+                                duration: const Duration(milliseconds: 250),
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  color: controller.selectedMenu.value == 2
+                                      ? Color(AppColor.main)
+                                      : Colors.transparent,
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                child: Text(
+                                  "Piutang",
+                                  style: GoogleFonts.sora(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 14,
+                                    color: controller.selectedMenu.value == 2
+                                        ? Colors.white
+                                        : Colors.grey[600],
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -157,56 +166,68 @@ class HomeView extends GetView<HomeController> {
 
             const SizedBox(height: 70),
 
-            // KONTEN BAWAH
+            // ==== KONTEN ====
             Expanded(
               child: Center(
                 child: Obx(() {
-                  if (controller.selectedMenu.value == 1) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.money_off_csred_rounded,
-                          size: 60,
-                          color: Colors.red[400],
-                        ),
-                        const SizedBox(height: 12),
-                        Text(
-                          "Menampilkan data Hutang",
-                          style: GoogleFonts.sora(
-                            fontSize: 16,
-                            color: Colors.grey[700],
+                  switch (controller.selectedMenu.value) {
+                    case 1:
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.money_off_csred_rounded,
+                            size: 60,
+                            color: Colors.red[400],
                           ),
-                        ),
-                      ],
-                    );
-                  } else if (controller.selectedMenu.value == 2) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.attach_money,
-                          size: 60,
-                          color: Colors.green[400],
-                        ),
-                        const SizedBox(height: 12),
-                        Text(
-                          "Menampilkan data Piutang",
-                          style: GoogleFonts.sora(
-                            fontSize: 16,
-                            color: Colors.grey[700],
+                          const SizedBox(height: 12),
+                          Text(
+                            "Menampilkan data Hutang",
+                            style: GoogleFonts.sora(
+                              fontSize: 16,
+                              color: Colors.grey[700],
+                            ),
                           ),
-                        ),
-                      ],
-                    );
-                  } else {
-                    return Text(
-                      "Silakan pilih menu",
-                      style: GoogleFonts.sora(
-                        fontSize: 16,
-                        color: Colors.grey[600],
-                      ),
-                    );
+                        ],
+                      );
+                    case 2:
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.attach_money,
+                            size: 60,
+                            color: Colors.green[400],
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            "Menampilkan data Piutang",
+                            style: GoogleFonts.sora(
+                              fontSize: 16,
+                              color: Colors.grey[700],
+                            ),
+                          ),
+                        ],
+                      );
+                    default:
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.info_outline,
+                            size: 60,
+                            color: Colors.grey[500],
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            "Silakan pilih menu",
+                            style: GoogleFonts.sora(
+                              fontSize: 16,
+                              color: Colors.grey[700],
+                            ),
+                          ),
+                        ],
+                      );
                   }
                 }),
               ),
@@ -214,35 +235,44 @@ class HomeView extends GetView<HomeController> {
           ],
         ),
       ),
+
+      // ==== BOTTOM NAVIGATION ====
+      bottomNavigationBar: _buildBottomNav(),
     );
   }
 
-  // Widget Tab Button
-  Widget _tabButton({
-    required String label,
-    required bool active,
-    required VoidCallback onTap,
-  }) {
-    return Expanded(
-      child: InkWell(
-        borderRadius: BorderRadius.circular(30),
-        onTap: onTap,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 250),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: active ? Color(AppColor.main) : Colors.transparent,
-            borderRadius: BorderRadius.circular(30),
+  // ================= BOTTOM NAVIGATION =================
+  Widget _buildBottomNav() {
+    return Obx(
+      () => BottomNavigationBar(
+        backgroundColor: Color(AppColor.base),
+        currentIndex: controller.bottomIndex.value,
+        onTap: (index) {
+          controller.setBottomIndex(index);
+          switch (index) {
+            case 0:
+              Get.offAllNamed(Routes.HOME);
+              break;
+            case 1:
+              Get.offAllNamed(Routes.ADD_TRANSACTION);
+              break;
+            case 2:
+              Get.offAllNamed(Routes.PROFILE);
+              break;
+          }
+        },
+        selectedItemColor: Color(AppColor.main),
+        unselectedItemColor: Colors.grey,
+        showUnselectedLabels: true,
+        type: BottomNavigationBarType.fixed,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Beranda"),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add_task),
+            label: "Transaksi",
           ),
-          child: Text(
-            label,
-            style: GoogleFonts.sora(
-              fontWeight: FontWeight.w600,
-              fontSize: 14,
-              color: active ? Colors.white : Colors.grey[600],
-            ),
-          ),
-        ),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profil"),
+        ],
       ),
     );
   }
