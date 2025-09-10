@@ -33,7 +33,9 @@ class TransactionsView extends GetView<TransactionsController> {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () {
+          Get.toNamed(Routes.ADD_TRANSACTIONS);
+        },
         label: Text(
           "Tambah Data +",
           style: GoogleFonts.sora(

@@ -1,23 +1,18 @@
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class AddTransactionsController extends GetxController {
-  //TODO: Implement AddTransactionsController
+  // Ntuk Select Type Transaksi
+  RxInt typeT = 1.obs;
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
-  }
+  TextEditingController nameC = TextEditingController();
+  TextEditingController amountC = TextEditingController();
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
+  // untuk tanggal transaksi
+  Rx<DateTime?> selectedDate = Rx<DateTime?>(null);
+  TextEditingController dateC = TextEditingController();
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
+  // Untuk Tanggal Jatuh Tempo
+  Rx<DateTime?> dueDate = Rx<DateTime?>(null);
+  TextEditingController dueDateC = TextEditingController();
 }
