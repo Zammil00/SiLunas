@@ -126,6 +126,8 @@ class AddTransactionsView extends GetView<AddTransactionsController> {
               SizedBox(height: 5),
               TextField(
                 controller: controller.nameC,
+                autofocus: true,
+                keyboardType: TextInputType.name,
                 style: GoogleFonts.sora(fontSize: 14, color: Colors.black87),
                 decoration: InputDecoration(
                   hintText: "Masukkan nama pihak bersangkutan",
@@ -170,6 +172,7 @@ class AddTransactionsView extends GetView<AddTransactionsController> {
               SizedBox(height: 5),
               TextField(
                 controller: controller.amountC,
+                autofocus: true,
                 style: GoogleFonts.sora(fontSize: 14, color: Colors.black87),
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
@@ -316,6 +319,78 @@ class AddTransactionsView extends GetView<AddTransactionsController> {
                     borderSide: BorderSide(
                       color: Color(AppColor.main),
                       width: 1.5,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 16),
+
+              // FORM CATATAN
+              Text(
+                "Catatan",
+                style: GoogleFonts.sora(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              SizedBox(height: 5),
+              TextField(
+                controller: controller.noteC,
+                autofocus: true,
+                keyboardType: TextInputType.text,
+                style: GoogleFonts.sora(fontSize: 14, color: Colors.black87),
+                decoration: InputDecoration(
+                  hintText: "Masukkan Catatan (opsional)",
+                  hintStyle: GoogleFonts.sora(
+                    fontSize: 13,
+                    color: Colors.grey[600],
+                  ),
+                  prefixIcon: const Icon(Icons.notes, color: Colors.grey),
+                  contentPadding: const EdgeInsets.symmetric(
+                    vertical: 20,
+                    horizontal: 16,
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey[300],
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide.none,
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      color: Color(AppColor.main),
+                      width: 1.5,
+                    ),
+                  ),
+                ),
+              ),
+
+              // FORM JUMLAH
+              SizedBox(height: 16),
+
+              // TAMBAHIN BUTTON SIMPAN
+              SizedBox(height: 30),
+              SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Simpan data transaksi
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(AppColor.main),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: Text(
+                    "Simpan Transaksi",
+                    style: GoogleFonts.sora(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
