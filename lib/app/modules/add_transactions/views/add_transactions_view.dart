@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:si_lunas/core/color/app_color.dart';
@@ -8,10 +7,12 @@ import '../controllers/add_transactions_controller.dart';
 
 class AddTransactionsView extends GetView<AddTransactionsController> {
   const AddTransactionsView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(AppColor.base),
+      resizeToAvoidBottomInset: true, // biar konten naik saat keyboard muncul
       appBar: AppBar(
         backgroundColor: Color(AppColor.main),
         title: Text(
@@ -25,12 +26,17 @@ class AddTransactionsView extends GetView<AddTransactionsController> {
         centerTitle: true,
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 16, left: 20, right: 20),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.only(
+            top: 16,
+            left: 20,
+            right: 20,
+            bottom: 30,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // TEK NYA
+              // JENIS TRANSAKSI
               Text(
                 "Jenis Transaksi",
                 style: GoogleFonts.sora(
@@ -39,8 +45,7 @@ class AddTransactionsView extends GetView<AddTransactionsController> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              SizedBox(height: 5),
-              // BUTTON PILIH JENIS NYA
+              const SizedBox(height: 5),
               Obx(
                 () => ToggleButtons(
                   borderRadius: BorderRadius.circular(12),
@@ -61,7 +66,7 @@ class AddTransactionsView extends GetView<AddTransactionsController> {
                     Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 15,
-                        vertical: 5,
+                        vertical: 8,
                       ),
                       child: Row(
                         children: [
@@ -86,7 +91,7 @@ class AddTransactionsView extends GetView<AddTransactionsController> {
                     Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 20,
-                        vertical: 10,
+                        vertical: 8,
                       ),
                       child: Row(
                         children: [
@@ -112,7 +117,7 @@ class AddTransactionsView extends GetView<AddTransactionsController> {
                 ),
               ),
 
-              SizedBox(height: 16),
+              const SizedBox(height: 20),
 
               // FORM NAMA
               Text(
@@ -123,10 +128,9 @@ class AddTransactionsView extends GetView<AddTransactionsController> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              SizedBox(height: 5),
+              const SizedBox(height: 5),
               TextField(
                 controller: controller.nameC,
-                autofocus: true,
                 keyboardType: TextInputType.name,
                 style: GoogleFonts.sora(fontSize: 14, color: Colors.black87),
                 decoration: InputDecoration(
@@ -140,7 +144,7 @@ class AddTransactionsView extends GetView<AddTransactionsController> {
                     color: Colors.grey,
                   ),
                   contentPadding: const EdgeInsets.symmetric(
-                    vertical: 20,
+                    vertical: 18,
                     horizontal: 16,
                   ),
                   filled: true,
@@ -159,8 +163,9 @@ class AddTransactionsView extends GetView<AddTransactionsController> {
                 ),
               ),
 
+              const SizedBox(height: 20),
+
               // FORM JUMLAH
-              SizedBox(height: 16),
               Text(
                 "Jumlah Transaksi",
                 style: GoogleFonts.sora(
@@ -169,12 +174,11 @@ class AddTransactionsView extends GetView<AddTransactionsController> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              SizedBox(height: 5),
+              const SizedBox(height: 5),
               TextField(
                 controller: controller.amountC,
-                autofocus: true,
-                style: GoogleFonts.sora(fontSize: 14, color: Colors.black87),
                 keyboardType: TextInputType.number,
+                style: GoogleFonts.sora(fontSize: 14, color: Colors.black87),
                 decoration: InputDecoration(
                   hintText: "Masukkan jumlah uang",
                   hintStyle: GoogleFonts.sora(
@@ -186,7 +190,7 @@ class AddTransactionsView extends GetView<AddTransactionsController> {
                     color: Colors.grey,
                   ),
                   contentPadding: const EdgeInsets.symmetric(
-                    vertical: 20,
+                    vertical: 18,
                     horizontal: 16,
                   ),
                   filled: true,
@@ -205,8 +209,9 @@ class AddTransactionsView extends GetView<AddTransactionsController> {
                 ),
               ),
 
-              // FORM TANGGAL
-              SizedBox(height: 16),
+              const SizedBox(height: 20),
+
+              // FORM TANGGAL TRANSAKSI
               Text(
                 "Tanggal Transaksi",
                 style: GoogleFonts.sora(
@@ -215,22 +220,38 @@ class AddTransactionsView extends GetView<AddTransactionsController> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              SizedBox(height: 5),
+              const SizedBox(height: 5),
               TextField(
                 controller: controller.dateC,
-                readOnly: true, // biar gak bisa diketik manual
+                readOnly: true,
                 onTap: () async {
                   DateTime? picked = await showDatePicker(
                     context: context,
                     initialDate: DateTime.now(),
                     firstDate: DateTime(2000),
                     lastDate: DateTime(2100),
+                    builder: (context, child) {
+                      return Theme(
+                        data: Theme.of(context).copyWith(
+                          colorScheme: ColorScheme.light(
+                            primary: Color(AppColor.main),
+                            onPrimary: Colors.white,
+                            onSurface: Colors.black,
+                          ),
+                          textButtonTheme: TextButtonThemeData(
+                            style: TextButton.styleFrom(
+                              foregroundColor: Color(AppColor.main),
+                            ),
+                          ),
+                        ),
+                        child: child!,
+                      );
+                    },
                   );
-
                   if (picked != null) {
-                    controller.selectedDate.value = picked;
-                    controller.dateC.text =
-                        "${picked.day}/${picked.month}/${picked.year}"; // format dd/MM/yyyy
+                    controller.dateC.text = controller.dateFormat.format(
+                      picked,
+                    );
                   }
                 },
                 style: GoogleFonts.sora(fontSize: 14, color: Colors.black87),
@@ -245,7 +266,7 @@ class AddTransactionsView extends GetView<AddTransactionsController> {
                     color: Colors.grey,
                   ),
                   contentPadding: const EdgeInsets.symmetric(
-                    vertical: 20,
+                    vertical: 18,
                     horizontal: 16,
                   ),
                   filled: true,
@@ -264,9 +285,9 @@ class AddTransactionsView extends GetView<AddTransactionsController> {
                 ),
               ),
 
-              SizedBox(height: 16),
+              const SizedBox(height: 20),
 
-              // TANGGAL JATUH TEMPO
+              // FORM JATUH TEMPO
               Text(
                 "Tanggal Jatuh Tempo",
                 style: GoogleFonts.sora(
@@ -275,7 +296,7 @@ class AddTransactionsView extends GetView<AddTransactionsController> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              SizedBox(height: 5),
+              const SizedBox(height: 5),
               TextField(
                 controller: controller.dueDateC,
                 readOnly: true,
@@ -285,12 +306,28 @@ class AddTransactionsView extends GetView<AddTransactionsController> {
                     initialDate: DateTime.now(),
                     firstDate: DateTime(2000),
                     lastDate: DateTime(2100),
+                    builder: (context, child) {
+                      return Theme(
+                        data: Theme.of(context).copyWith(
+                          colorScheme: ColorScheme.light(
+                            primary: Color(AppColor.main),
+                            onPrimary: Colors.white,
+                            onSurface: Colors.black,
+                          ),
+                          textButtonTheme: TextButtonThemeData(
+                            style: TextButton.styleFrom(
+                              foregroundColor: Color(AppColor.main),
+                            ),
+                          ),
+                        ),
+                        child: child!,
+                      );
+                    },
                   );
-
                   if (picked != null) {
-                    controller.dueDate.value = picked;
-                    controller.dueDateC.text =
-                        "${picked.day}/${picked.month}/${picked.year}";
+                    controller.dueDateC.text = controller.dateFormat.format(
+                      picked,
+                    );
                   }
                 },
                 style: GoogleFonts.sora(fontSize: 14, color: Colors.black87),
@@ -305,7 +342,7 @@ class AddTransactionsView extends GetView<AddTransactionsController> {
                     color: Colors.grey,
                   ),
                   contentPadding: const EdgeInsets.symmetric(
-                    vertical: 20,
+                    vertical: 18,
                     horizontal: 16,
                   ),
                   filled: true,
@@ -323,7 +360,8 @@ class AddTransactionsView extends GetView<AddTransactionsController> {
                   ),
                 ),
               ),
-              SizedBox(height: 16),
+
+              const SizedBox(height: 20),
 
               // FORM CATATAN
               Text(
@@ -334,10 +372,9 @@ class AddTransactionsView extends GetView<AddTransactionsController> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              SizedBox(height: 5),
+              const SizedBox(height: 5),
               TextField(
                 controller: controller.noteC,
-                autofocus: true,
                 keyboardType: TextInputType.text,
                 style: GoogleFonts.sora(fontSize: 14, color: Colors.black87),
                 decoration: InputDecoration(
@@ -348,7 +385,7 @@ class AddTransactionsView extends GetView<AddTransactionsController> {
                   ),
                   prefixIcon: const Icon(Icons.notes, color: Colors.grey),
                   contentPadding: const EdgeInsets.symmetric(
-                    vertical: 20,
+                    vertical: 18,
                     horizontal: 16,
                   ),
                   filled: true,
@@ -367,17 +404,15 @@ class AddTransactionsView extends GetView<AddTransactionsController> {
                 ),
               ),
 
-              // FORM JUMLAH
-              SizedBox(height: 16),
+              const SizedBox(height: 40),
 
-              // TAMBAHIN BUTTON SIMPAN
-              SizedBox(height: 30),
+              // BUTTON SIMPAN
               SizedBox(
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
                   onPressed: () {
-                    // Simpan data transaksi
+                    // TODO: simpan transaksi
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(AppColor.main),

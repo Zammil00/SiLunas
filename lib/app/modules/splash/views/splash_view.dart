@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:si_lunas/core/color/app_color.dart';
 import '../controllers/splash_controller.dart';
 
 class SplashView extends GetView<SplashController> {
   const SplashView({super.key});
+
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(backgroundColor: Color(AppColor.main)),
       body: SafeArea(
-        child: Column(
-          children: [
-            // Bagian atas (gambar ilustrasi)
-            Expanded(
-              flex: 2,
-              child: Container(
+        child: SingleChildScrollView(
+          // ✅ biar bisa scroll kalau overflow
+          child: Column(
+            children: [
+              // Bagian atas (gambar ilustrasi)
+              Container(
+                height: screenHeight * 0.55, // ✅ tinggi relatif ke layar
                 width: double.infinity,
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
@@ -29,24 +32,17 @@ class SplashView extends GetView<SplashController> {
                     bottomRight: Radius.circular(300),
                   ),
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Image.asset(
-                      "assets/img/Orang.png", // ilustrasi kamu
-                      height: 500,
-                      width: 250,
-                    ),
-                  ],
+                child: Center(
+                  child: Image.asset(
+                    "assets/img/Orang.png",
+                    height: screenHeight * 0.4, // ✅ gambar lebih fleksibel
+                    fit: BoxFit.contain,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 16),
-            // Bagian bawah (text + button)
-            Expanded(
-              flex: 1,
-              child: Padding(
+              const SizedBox(height: 16),
+              // Bagian bawah (text + button)
+              Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 24,
                   vertical: 16,
@@ -91,8 +87,8 @@ class SplashView extends GetView<SplashController> {
                   ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

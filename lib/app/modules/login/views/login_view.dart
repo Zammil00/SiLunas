@@ -1,94 +1,92 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:si_lunas/core/color/app_color.dart';
-
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
   const LoginView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset:
+          true, // ✅ biar layar ikut naik kalau keyboard muncul
       backgroundColor: Colors.white,
       appBar: AppBar(backgroundColor: Color(AppColor.main)),
       body: SafeArea(
-        child: Column(
-          children: [
-            // Bagian atas (gambar ilustrasi)
-            Expanded(
-              flex: 1,
-              child: Container(
+        child: SingleChildScrollView(
+          // ✅ scroll otomatis
+          // padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Bagian atas (gambar ilustrasi)
+              Container(
+                height:
+                    MediaQuery.of(context).size.height *
+                    0.25, // ✅ tinggi relatif
                 width: double.infinity,
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    colors: [Color(AppColor.main), Color(AppColor.secondary)],
+                    colors: [Color(AppColor.main), Color(AppColor.main)],
                   ),
                   borderRadius: BorderRadius.only(
                     bottomRight: Radius.circular(300),
                   ),
                 ),
               ),
-            ),
-            SizedBox(height: 16),
-            // Bagian bawah (text + button)
-            Expanded(
-              flex: 1,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 24,
-                  vertical: 16,
-                ),
+              const SizedBox(height: 24),
+              Padding(
+                padding: EdgeInsetsGeometry.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Title
                     const Text(
                       "LOGIN TO SILUNAS APP",
-                      textAlign: TextAlign.start,
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 8),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Masukkan Email"),
-                        TextField(
-                          controller: controller.emailC,
-                          keyboardType: TextInputType.emailAddress,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: 'Email',
-                          ),
-                        ),
-                        SizedBox(height: 16),
-                        Text("Masukkan Password"),
-                        Obx(
-                          () => TextField(
-                            controller: controller.passC,
-                            keyboardType: TextInputType.visiblePassword,
-                            obscureText: controller.isHide.value,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: 'Password',
-                              suffixIcon: IconButton(
-                                onPressed: () {
-                                  controller.isHide.toggle();
-                                },
-                                icon: controller.isHide.value
-                                    ? Icon(Icons.visibility)
-                                    : Icon(Icons.visibility_off),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                    const SizedBox(height: 16),
+
+                    // Form
+                    Text("Masukkan Email"),
+                    TextField(
+                      controller: controller.emailC,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'Email',
+                      ),
                     ),
+                    const SizedBox(height: 16),
+
+                    Text("Masukkan Password"),
+                    Obx(
+                      () => TextField(
+                        controller: controller.passC,
+                        keyboardType: TextInputType.visiblePassword,
+                        obscureText: controller.isHide.value,
+                        decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
+                          hintText: 'Password',
+                          suffixIcon: IconButton(
+                            onPressed: () => controller.isHide.toggle(),
+                            icon: controller.isHide.value
+                                ? const Icon(Icons.visibility)
+                                : const Icon(Icons.visibility_off),
+                          ),
+                        ),
+                      ),
+                    ),
+
                     const SizedBox(height: 24),
+
+                    // Tombol Login
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
@@ -99,34 +97,35 @@ class LoginView extends GetView<LoginController> {
                             borderRadius: BorderRadius.circular(12),
                           ),
                         ),
-                        onPressed: () {
-                          controller.login();
-                        },
+                        onPressed: () => controller.login(),
                         child: const Text(
                           "LOGIN",
                           style: TextStyle(fontSize: 16, color: Colors.white),
                         ),
                       ),
                     ),
-                    SizedBox(height: 6),
+
+                    const SizedBox(height: 12),
+
+                    // Link Register & Forgot Password
                     Row(
                       children: [
                         TextButton(
                           onPressed: () => Get.offAllNamed('/register'),
-                          child: Text("Buat Akun Baru"),
+                          child: const Text("Buat Akun Baru"),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         TextButton(
                           onPressed: () => Get.offAllNamed('/forgotpass'),
-                          child: Text("Lupa Password?"),
+                          child: const Text("Lupa Password?"),
                         ),
                       ],
                     ),
                   ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
