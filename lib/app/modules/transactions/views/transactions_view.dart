@@ -26,12 +26,97 @@ class TransactionsView extends GetView<TransactionsController> {
           ),
         ),
       ),
-      body: const Center(
-        child: Text(
-          'TransactionsView is working',
-          style: TextStyle(fontSize: 20),
-        ),
+
+      // BODYNYA KITA PAKE FUTUREBUILDER UNTUK FETCH DATA DARI SUPABASE
+      body: FutureBuilder(
+        future: controller.getTransactions(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          return Padding(
+            padding: EdgeInsetsGeometry.symmetric(horizontal: 8, vertical: 8),
+            child: ListView.builder(
+              itemCount: controller.transactionsList.length,
+              itemBuilder: (context, index) {
+                final transaksi = controller.transactionsList[index];
+                return ListTile(
+                  // dense: true,
+                  visualDensity: VisualDensity.compact,
+                  // contentPadding: EdgeInsets.symmetric(
+                  //   // vertical: 4,
+                  //   // horizontal: 16,
+                  // ),
+
+                  // LEADING NYA
+                  leading: CircleAvatar(
+                    radius: 24,
+                    backgroundColor: Color(AppColor.main),
+                    child: Text(
+                      "${index + 1}",
+                      style: GoogleFonts.sora(color: Colors.white),
+                    ),
+                  ),
+
+                  // TITLE NYA
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            transaksi['name'] ?? '-',
+                            style: GoogleFonts.sora(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18,
+                            ),
+                          ),
+                          SizedBox(height: 1),
+                          Text(
+                            transaksi["amount"] != null
+                                ? "Rp ${transaksi["amount"]}"
+                                : '-',
+                            style: GoogleFonts.sora(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Icon(
+                            transaksi['type'] == 'Utang'
+                                ? Icons.arrow_upward_rounded
+                                : Icons.arrow_downward_rounded,
+                            color: transaksi['type'] == 'Utang'
+                                ? Colors.red
+                                : Colors.green,
+                            size: 30,
+                          ),
+                          SizedBox(width: 10),
+                          IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.more_horiz_rounded,
+                              size: 30,
+                              color: Color(AppColor.main),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          );
+        },
       ),
+
+      // ==== FLOATING ACTION BUTTON ====
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           Get.toNamed(Routes.ADD_TRANSACTIONS);
@@ -46,6 +131,7 @@ class TransactionsView extends GetView<TransactionsController> {
         ),
         backgroundColor: Color(AppColor.main),
       ),
+
       // ==== BOTTOM NAVIGATION ====
       bottomNavigationBar: _BottomBar(controller: controller),
     );

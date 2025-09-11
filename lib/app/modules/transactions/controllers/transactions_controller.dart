@@ -1,18 +1,5 @@
 import 'package:get/get.dart';
-
-class TransactionModel {
-  final int jenis; // 1 = Hutang, 2 = Piutang
-  final String nama;
-  final String nominal;
-  final String keterangan;
-
-  TransactionModel({
-    required this.jenis,
-    required this.nama,
-    required this.nominal,
-    required this.keterangan,
-  });
-}
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class TransactionsController extends GetxController {
   // CONTROL BUTTOM BAR
@@ -21,30 +8,38 @@ class TransactionsController extends GetxController {
     bottomIndex.value = index;
   }
 
-  /// tab menu aktif
-  var selectedMenu = 1.obs; // 1 = Hutang, 2 = Piutang
+  // KITA GET DATA TRANSACTIONS DARI SUPABASE
+  // define supabase client here
+  final SupabaseClient client = Supabase.instance.client;
 
-  /// daftar transaksi
-  var transactions = <TransactionModel>[].obs;
+  // KITA BUAT LIST OBSERVABLE UNTUK MENAMPUNG DATA TRANSACTIONS
+  RxList<Map<String, dynamic>> transactionsList = <Map<String, dynamic>>[].obs;
 
-  /// ganti tab menu
-  void setMenu(int menu) {
-    selectedMenu.value = menu;
-  }
+  // METHOD UNTUK FETCH DATA TRANSACTIONS DARI SUPABASE
+  Future<void> getTransactions() async {
+    // AMBIL UID USER YANG SEDANG LOGIN
+    final uid = client.auth.currentUser!.id;
 
-  /// tambah transaksi baru
-  void addTransaction(int jenis, String nama, String nominal, String ket) {
-    final trx = TransactionModel(
-      jenis: jenis,
-      nama: nama,
-      nominal: nominal,
-      keterangan: ket,
-    );
-    transactions.add(trx);
-  }
+    // AMBIL DATA USER DARI UID YG SUDAH KITA DAPATKAN
+    // DATA INI KITA GUNAKAN UNTUK MENDAPATKAN USER_ID YANG ADA DI TABEL USER_PROFILE
+    final user = await client
+        .from("user_profile")
+        .select("id")
+        .eq("uid", uid)
+        .single();
 
-  /// ambil transaksi sesuai tab aktif
-  List<TransactionModel> get currentTransactions {
-    return transactions.where((t) => t.jenis == selectedMenu.value).toList();
+    // SIMPAN DULU USER ID NYA
+    final int userId = user['id'];
+
+    // SETELAH DI DAPATKAN ID USER YG SEDANG LOGIN, KITA GUNAKAN ID INI UNTUK MENGAMBIL DATA TRANSACTIONS BERDASARKAN USER_ID
+    final dataTransactions = await client
+        .from("transactions")
+        .select()
+        .eq("user_id", userId);
+
+    // SETELAH DAPAT DATA KITA SIMPAN KE DALAM LIST OBSERVABLE
+    transactionsList.value = List<Map<String, dynamic>>.from(dataTransactions);
+
+    print("Data Transactions: $transactionsList");
   }
 }
