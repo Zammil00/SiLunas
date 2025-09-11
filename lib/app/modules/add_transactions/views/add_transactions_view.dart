@@ -249,6 +249,7 @@ class AddTransactionsView extends GetView<AddTransactionsController> {
                     },
                   );
                   if (picked != null) {
+                    controller.selectedDate.value = picked;
                     controller.dateC.text = controller.dateFormat.format(
                       picked,
                     );
@@ -325,6 +326,7 @@ class AddTransactionsView extends GetView<AddTransactionsController> {
                     },
                   );
                   if (picked != null) {
+                    controller.dueDate.value = picked;
                     controller.dueDateC.text = controller.dateFormat.format(
                       picked,
                     );
@@ -412,7 +414,7 @@ class AddTransactionsView extends GetView<AddTransactionsController> {
                 height: 50,
                 child: ElevatedButton(
                   onPressed: () {
-                    // TODO: simpan transaksi
+                    controller.addTransaction();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(AppColor.main),
@@ -420,12 +422,16 @@ class AddTransactionsView extends GetView<AddTransactionsController> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: Text(
-                    "Simpan Transaksi",
-                    style: GoogleFonts.sora(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
+                  child: Obx(
+                    () => Text(
+                      controller.isLoading.isFalse
+                          ? "Tambah Transaksi"
+                          : "Loading...",
+                      style: GoogleFonts.sora(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ),
