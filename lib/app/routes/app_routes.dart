@@ -12,6 +12,7 @@ abstract class Routes {
   static const EDIT_PROFILE = _Paths.EDIT_PROFILE;
   static const TRANSACTIONS = _Paths.TRANSACTIONS;
   static const ADD_TRANSACTIONS = _Paths.ADD_TRANSACTIONS;
+  static const DETAIL_TRANSACTION = _Paths.DETAIL_TRANSACTION;
 }
 
 abstract class _Paths {
@@ -26,4 +27,5 @@ abstract class _Paths {
 
   static const TRANSACTIONS = '/transactions';
   static const ADD_TRANSACTIONS = '/add-transactions';
+  static const DETAIL_TRANSACTION = '/detail-transaction';
 }
