@@ -42,6 +42,7 @@ class DetailTransactionView extends GetView<DetailTransactionController> {
             );
           }
 
+          // TAMPUNG DATA TRANSAKSI
           final transaksi = controller.transactionDetail;
 
           return SingleChildScrollView(
@@ -423,7 +424,10 @@ class DetailTransactionView extends GetView<DetailTransactionController> {
                     Expanded(
                       child: ElevatedButton.icon(
                         onPressed: () {
-                          Get.toNamed(Routes.EDIT_TRANSACTION);
+                          Get.toNamed(
+                            Routes.EDIT_TRANSACTION,
+                            arguments: transaksi['id'],
+                          );
                         },
                         icon: const Icon(
                           Icons.edit,
