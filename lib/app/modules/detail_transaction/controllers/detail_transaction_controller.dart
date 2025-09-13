@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:si_lunas/app/routes/app_pages.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class DetailTransactionController extends GetxController {
@@ -38,5 +40,45 @@ class DetailTransactionController extends GetxController {
     // SIMPAN DATA TRANSAKSI KE DALAM LIST OBSERVABLE
     transactionDetail.value = Map<String, dynamic>.from(dataTransaction);
     print("Detail Transaksi: $transactionDetail.value");
+  }
+
+  // SEKARNG KITA BUAT METHOD UNTUK MENGHAPUS TRANSAKSI
+  // int id di dapatkan dari onpressed delete button di detail_transaction_view.dart
+  Future<void> deleteTransaction(int id) async {
+    try {
+      final response = await client
+          .from("transactions")
+          .delete()
+          .eq("id", id)
+          .select();
+
+      if (response.isNotEmpty) {
+        Get.snackbar(
+          "Berhasil",
+          "Data transaksi berhasil dihapus",
+          colorText: Colors.white,
+          backgroundColor: Colors.green,
+          snackPosition: SnackPosition.BOTTOM,
+        );
+        Get.toNamed(Routes.TRANSACTIONS); // balik ke halaman sebelumnya
+      } else {
+        Get.snackbar(
+          "Info",
+          "Tidak ada data yang dihapus",
+          colorText: Colors.white,
+          backgroundColor: Colors.orange,
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      }
+    } catch (e) {
+      Get.snackbar(
+        "Gagal",
+        "Terjadi kesalahan saat menghapus transaksi: $e",
+        colorText: Colors.white,
+        backgroundColor: Colors.red,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      print("Error deleting transaction: $e");
+    }
   }
 }

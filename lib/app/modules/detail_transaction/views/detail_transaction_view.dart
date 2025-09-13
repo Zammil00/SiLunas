@@ -394,7 +394,7 @@ class DetailTransactionView extends GetView<DetailTransactionController> {
                     Expanded(
                       child: ElevatedButton.icon(
                         onPressed: () {
-                          // LOGIKA DELETE TRANSAKSI
+                          controller.deleteTransaction(transaksi['id']);
                         },
                         icon: const Icon(
                           Icons.delete,
