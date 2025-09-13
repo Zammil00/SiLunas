@@ -43,10 +43,6 @@ class TransactionsView extends GetView<TransactionsController> {
                 return ListTile(
                   // dense: true,
                   visualDensity: VisualDensity.compact,
-                  // contentPadding: EdgeInsets.symmetric(
-                  //   // vertical: 4,
-                  //   // horizontal: 16,
-                  // ),
 
                   // LEADING NYA
                   leading: CircleAvatar(
@@ -98,7 +94,14 @@ class TransactionsView extends GetView<TransactionsController> {
                           ),
                           SizedBox(width: 10),
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.toNamed(
+                                Routes.DETAIL_TRANSACTION,
+                                // KIRIM ID TRANSAKSI KE HALAMAN DETAIL TRANSAKSI
+                                // ARGUMENTS INI YANG AKAN KITA TANGKAP DI CONTROLLER DETAIL TRANSAKSI
+                                arguments: transaksi['id'],
+                              );
+                            },
                             icon: Icon(
                               Icons.more_horiz_rounded,
                               size: 30,

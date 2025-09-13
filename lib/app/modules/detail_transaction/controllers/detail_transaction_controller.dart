@@ -1,23 +1,42 @@
 import 'package:get/get.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class DetailTransactionController extends GetxController {
-  //TODO: Implement DetailTransactionController
+  // DEFINISI SUPABASE CLIENT
+  final SupabaseClient client = Supabase.instance.client;
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
+  // SEBELUM GET DATA KITA BUAT LIST OBSERVABLE UNTUK MENAMPUNG DATA TRANSAKSI
+  RxMap<String, dynamic> transactionDetail = <String, dynamic>{}.obs;
+
+  // METHOD UNTUK MENDAPATKAN DETAIL TRANSAKSI BERDASARKAN ID
+  Future<void> getTransactionById() async {
+    // KITA TAMPUNG ID TRANSAKSI YANG KITA DAPATKAN DARI ARGUMENT
+    final transaksiId = Get.arguments;
+
+    // KITA AMBIL DATA USER YANG SEDANG LOGIN DULU NTUK KEAMANAN
+    final uid = client.auth.currentUser!.id;
+
+    // AMBIL DATA USER DARI UID YG SUDAH KITA DAPATKAN
+    // DATA INI KITA GUNAKAN UNTUK MENDAPATKAN USER
+    final user = await client
+        .from("user_profile")
+        .select("id")
+        .eq("uid", uid)
+        .single();
+
+    // SIMPAN DULU USER ID NYA
+    final int userId = user['id'];
+
+    // SEKARANG KITA AMBIL DATA TRANSAKSI BERDASARKAN ID TRANSAKSI DAN USER_ID
+    final dataTransaction = await client
+        .from("transactions")
+        .select()
+        .eq("id", transaksiId)
+        .eq("user_id", userId)
+        .single();
+
+    // SIMPAN DATA TRANSAKSI KE DALAM LIST OBSERVABLE
+    transactionDetail.value = Map<String, dynamic>.from(dataTransaction);
+    print("Detail Transaksi: $transactionDetail.value");
   }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }
