@@ -1,23 +1,27 @@
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class EditTransactionController extends GetxController {
-  //TODO: Implement EditTransactionController
+  // STATE LOADING
+  RxBool isLoading = false.obs;
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
-  }
+  // KIAT MANAGE STATE MENGGUNAKAN GETX
+  RxInt typeT = 1.obs;
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
+  // UNTUK TANGGAL TRANSAKSI
+  Rx<DateTime?> selectedDate = Rx<DateTime?>(null);
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
+  // UNTUK TANGGAL JATUH TEMPO
+  Rx<DateTime?> dueDate = Rx<DateTime?>(null);
 
-  void increment() => count.value++;
+  // KIATA BUAT DATE FORMAT
+  final DateFormat dateFormat = DateFormat("d MMM yyyy"); // contoh:
+
+  // TETXT EDITING CONTROLLER
+  TextEditingController nameC = TextEditingController();
+  TextEditingController amountC = TextEditingController();
+  TextEditingController dateC = TextEditingController();
+  TextEditingController dueDateC = TextEditingController();
+  TextEditingController noteC = TextEditingController();
 }

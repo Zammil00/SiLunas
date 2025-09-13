@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:si_lunas/core/color/app_color.dart';
+import '../../../../core/color/app_color.dart';
 
+import '../../../routes/app_pages.dart';
 import '../controllers/detail_transaction_controller.dart';
 
 class DetailTransactionView extends GetView<DetailTransactionController> {
@@ -422,7 +423,7 @@ class DetailTransactionView extends GetView<DetailTransactionController> {
                     Expanded(
                       child: ElevatedButton.icon(
                         onPressed: () {
-                          // LOGIKA EDIT TRANSAKSI
+                          Get.toNamed(Routes.EDIT_TRANSACTION);
                         },
                         icon: const Icon(
                           Icons.edit,
