@@ -25,6 +25,17 @@ class TransactionsView extends GetView<TransactionsController> {
             fontSize: 20,
           ),
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 15.0),
+            child: IconButton(
+              onPressed: () {
+                Get.toNamed(Routes.ADD_TRANSACTIONS);
+              },
+              icon: Icon(Icons.add, size: 35, color: Colors.black87),
+            ),
+          ),
+        ],
       ),
 
       // BODYNYA KITA PAKE FUTUREBUILDER UNTUK FETCH DATA DARI SUPABASE
@@ -120,20 +131,6 @@ class TransactionsView extends GetView<TransactionsController> {
       ),
 
       // ==== FLOATING ACTION BUTTON ====
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Get.toNamed(Routes.ADD_TRANSACTIONS);
-        },
-        label: Text(
-          "Tambah Data +",
-          style: GoogleFonts.sora(
-            color: Colors.white,
-            fontWeight: FontWeight.w600,
-            fontSize: 16,
-          ),
-        ),
-        backgroundColor: Color(AppColor.main),
-      ),
 
       // ==== BOTTOM NAVIGATION ====
       bottomNavigationBar: _BottomBar(controller: controller),
