@@ -13,6 +13,7 @@ abstract class Routes {
   static const TRANSACTIONS = _Paths.TRANSACTIONS;
   static const ADD_TRANSACTIONS = _Paths.ADD_TRANSACTIONS;
   static const DETAIL_TRANSACTION = _Paths.DETAIL_TRANSACTION;
+  static const EDIT_TRANSACTION = _Paths.EDIT_TRANSACTION;
 }
 
 abstract class _Paths {
@@ -28,4 +29,5 @@ abstract class _Paths {
   static const TRANSACTIONS = '/transactions';
   static const ADD_TRANSACTIONS = '/add-transactions';
   static const DETAIL_TRANSACTION = '/detail-transaction';
+  static const EDIT_TRANSACTION = '/edit-transaction';
 }

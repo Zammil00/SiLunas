@@ -6,6 +6,8 @@ import '../modules/detail_transaction/bindings/detail_transaction_binding.dart';
 import '../modules/detail_transaction/views/detail_transaction_view.dart';
 import '../modules/edit_profile/bindings/edit_profile_binding.dart';
 import '../modules/edit_profile/views/edit_profile_view.dart';
+import '../modules/edit_transaction/bindings/edit_transaction_binding.dart';
+import '../modules/edit_transaction/views/edit_transaction_view.dart';
 import '../modules/forgotpass/bindings/forgotpass_binding.dart';
 import '../modules/forgotpass/views/forgotpass_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -78,6 +80,11 @@ class AppPages {
       name: _Paths.DETAIL_TRANSACTION,
       page: () => const DetailTransactionView(),
       binding: DetailTransactionBinding(),
+    ),
+    GetPage(
+      name: _Paths.EDIT_TRANSACTION,
+      page: () => const EditTransactionView(),
+      binding: EditTransactionBinding(),
     ),
   ];
 }
