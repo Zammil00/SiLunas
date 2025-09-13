@@ -416,7 +416,9 @@ class EditTransactionView extends GetView<EditTransactionController> {
                     width: double.infinity,
                     height: 50,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        controller.updateTransaction();
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(AppColor.main),
                         shape: RoundedRectangleBorder(
